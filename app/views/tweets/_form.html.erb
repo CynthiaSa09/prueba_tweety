@@ -11,6 +11,7 @@
     </div>
   <% end %>
 
+  <div class= "table table-striped container text-center">
   <div class="field">
     <%= form.label :content %>
     <%= form.text_area :content %>
@@ -21,12 +22,8 @@
     <%= form.text_field :image %>
   </div>
 
-  <div class="field">
-    <%= form.label :likes %>
-    <%= form.number_field :likes %>
-  </div>
-
   <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
+</div>
