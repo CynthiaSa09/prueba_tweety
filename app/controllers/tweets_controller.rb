@@ -12,7 +12,7 @@ class TweetsController < ApplicationController
     else
       @tweets = Tweet.all
     end
-    @paginated_tweets = Tweet.page(params[:page]).paginate(page: params[:page], per_page: 50)
+     @paginated_tweets = Tweet.page(params[:page]).paginate(page: params[:page], per_page: 50)
   end
 
   # GET /tweets/1 or /tweets/1.json

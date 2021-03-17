@@ -30,4 +30,4 @@
 <%= link_to 'New Post', new_tweet_path %>
 </div>
 
-<%= paginate @paginated_tweets, :previous_label =>'', :next_label => 'Mostrar más Tweets' %>
+<%= will_paginate @paginated_tweets, :previous_label =>'', :next_label => 'Mostrar más Tweets' %>
