@@ -7,7 +7,12 @@ class TweetsController < ApplicationController
 
   # GET /tweets or /tweets.json
   def index
-    @tweets = Tweet.all
+    if params[:content].present?
+      @tweets = Tweet.where('content = ?', params[:content])
+    else
+      @tweets = Tweet.all
+    end
+    @paginated_tweets = Tweet.page(params[:page]).paginate(page: params[:page], per_page: 50)
   end
 
   # GET /tweets/1 or /tweets/1.json
@@ -42,6 +47,7 @@ class TweetsController < ApplicationController
 
   # PATCH/PUT /tweets/1 or /tweets/1.json
   def update
+    if @tweet.user.id == current_user.id
       respond_to do |format|
         if @tweet.update(tweet_params)
           format.html { redirect_to @tweet, notice: 'Tweet was successfully updated.' }
@@ -51,6 +57,7 @@ class TweetsController < ApplicationController
           format.json { render json: @tweet.errors, status: :unprocessable_entity }
         end
       end
+    end
   end 
 
   # DELETE /tweets/1 or /tweets/1.json

@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Content</th>
-      <th>Image</th>
+      <th>Profile photo</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,7 +15,7 @@
     <% @tweets.each do |tweet| %>
       <tr>
         <td><%= tweet.content %></td>
-        <td><%= image_tag tweet.image, width: 100 if tweet.image != nil %></td>
+        <td><%= image_tag (tweet.user.profile_photo), width: 100 if tweet.user.profile_photo != nil %></td>
         <td><%= link_to 'Show', tweet %></td>
         <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
         <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -29,3 +29,5 @@
 <div class="btn btn-success">
 <%= link_to 'New Post', new_tweet_path %>
 </div>
+
+<%= paginate @paginated_tweets, :previous_label =>'', :next_label => 'Mostrar más Tweets' %>
