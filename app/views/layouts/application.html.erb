@@ -12,16 +12,22 @@
    </head>
 
   <body>
+  <!-- Image and text -->
+  <nav class="navbar navbar-dark btn btn-danger">
+    <a class="navbar-brand" href="NavBar">
+    <%= image_tag 'tweet.jpg', width:50, height:50%>
+    Tweety </a>
+  </nav>
+
       <div class="container text-center">
         <p class="notice"><%= notice %></p>
-        
-  
-        <div class="container bg-danger">
+        <div class="bg-danger">
           <% if user_signed_in? %>
-          <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
-      </div>
+        </div>
+          <div>
+          <%= link_to 'Logout', destroy_user_session_path, class: "btn btn-danger", method: :delete %>
       <% end %>
-
+     </div>
       <%= yield %>
     </div>
 

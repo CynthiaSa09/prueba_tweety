@@ -43,8 +43,15 @@ class TweetsController < ApplicationController
   end
   
   def create_rt
+    if current_user
+      @tweet = Tweet.find(params[:id])
+      Tweet.create(content: @tweet.content , user_id: current_user.id, retweet_id: @tweet.id)
+    else 
+      redirect_to new_user_session_path
+    end
+    redirect_to root_path
   end
-
+  
   
   # POST /tweets or /tweets.json
   def create
@@ -99,7 +106,7 @@ class TweetsController < ApplicationController
     
     # Only allow a list of trusted parameters through.
     def tweet_params
-      params.require(:tweet).permit(:content, :image, :tweet, :tweet_id)
+      params.require(:tweet).permit(:content, :image, :tweet, :tweet_id, :origin_tweet)
     end
     
 end

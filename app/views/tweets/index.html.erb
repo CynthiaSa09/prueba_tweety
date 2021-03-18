@@ -1,38 +1,35 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Tweets</h1>
-<% if current_user %>
-<h2 class= "container text-primary">
-<%= flash[:alert] = "Bienvenido" %></h2>
-<%= link_to 'Create new Tweet', new_tweet_path, class:"btn btn-success mb-5" %>
-<% end %>
-
-
-<br>
-<table class= "table table-striped" >
-  <thead>
-    <tr>
-      <th>Content</th>
-      <th>Profile photo</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-  
-  <tbody>
-    <% @tweets.each do |tweet| %>
-      <tr>
-        <td><%= tweet.content %></td>
-        <td><%= image_tag (tweet.user.profile_photo), width: 100 if tweet.user.profile_photo != nil %></td>
-        <td><%= link_to 'Show', tweet %></td>
-        <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
-        <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to 'Like', tweet_like_path(tweet), method: :post %> <%= tweet.likes.count %></td>
-        <td><%= link_to 'Retweet', create_rt_tweet_path(tweet), method: :post%></td>
-      </tr>
+<div class="container text-center">
+      <h1>Tweets</h1>
+        <% if current_user %>
+        <h2 class= "text-primary text-center">
+        <%= flash[:alert] = "Bienvenido" %></h2>
+      <%= link_to 'Create new Tweet', new_tweet_path, class:"btn btn-success mb-5" %>
     <% end %>
-  </tbody>
+</div>
 
-</table>
+        
+<div class="container">
+    <div class="row">
+      <% @tweets.each do |tweet| %>
+      <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+       <td><%= image_tag (tweet.user.profile_photo), width: 100 if tweet.user.profile_photo != nil %></td>
+       <td><%= tweet.content %></td>
+       <small><%= time_ago_in_words(tweet.created_at) %> ago</small>
+            <p><%= link_to 'Show', tweet, class: "  btn btn-danger" %>
+              <% if current_user&.id == tweet.user_id %>
+                <%= link_to 'Edit', edit_tweet_path(tweet), class: "btn btn-danger" %>
+                <%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></p>
+              <% end %>
+            <br>
+            <td><%= link_to 'Like', tweet_like_path(tweet), class: "btn btn-danger mb-3", method: :post %> <%= tweet.likes.count %></td>
+            <br>
+            <td><%= link_to 'Retweet', create_rt_tweet_path(tweet), class: "btn btn-danger mb-3", method: :post%> <%= tweet.retweets.count %></td>
+       </div>
+     </div>
+    <% end %>
+  </div> 
+</div>
 
 
 <%= will_paginate @paginated_tweets, previous_label: '', next_label: 'Mostrar más Tweets' %>

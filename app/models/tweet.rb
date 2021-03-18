@@ -16,5 +16,8 @@ class Tweet < ApplicationRecord
   def remove_like(user)
     Like.where(user: user, tweet: self).first.destroy
   end
-  
+
+  def original_tweet
+    Tweet.find(self.origin_tweet)
+  end
 end
