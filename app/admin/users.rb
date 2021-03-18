@@ -15,4 +15,21 @@ ActiveAdmin.register User do
   #   permitted
   # end
   
+ index do
+  column :email
+  column :user_id
+  column "Cantidad de Tweets" do |user_id|
+    user_id.tweets.count
+  end
+
+  column "Cantidad Likes" do |user_id|
+    user_id.likes.count
+  end
+
+  column "Cantidad de Retweets" do |user_id|
+  end
+
+  actions
+end
+   
 end

@@ -47,7 +47,11 @@ class TweetsController < ApplicationController
     redirect_to root_path
   end
   
-  
+  def hashtags
+    tag = Tag.find_by(name: params[:name])
+    @tweets = tag.tweets
+  end
+
   # POST /tweets or /tweets.json
   def create
     @tweet = Tweet.new(tweet_params.merge(user: current_user))
