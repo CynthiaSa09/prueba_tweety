@@ -5,7 +5,9 @@ class TweetsController < ApplicationController
   # GET /tweets or /tweets.json
   def index
     _tweets = params[:content] ? Tweet.where("content like ?", "%#{ params[:content] }%") : Tweet.order(created_at: :desc)
-    @tweets = _tweets.paginate(page: params[:page], per_page: 50)
+    #@tweets = _tweets.paginate(page: params[:page], per_page: 50)
+    @tweets = _tweets.page(params[:page]).per(50)
+    
     @tweet = Tweet.new
   end
   
