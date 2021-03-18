@@ -11,3 +11,4 @@ u = User.create(name: 'María', profile_photo: 'https://th.bing.com/th/id/R5247a
 100.times do |i|
   Tweet.create(content:"Contenido#{i}", user_id:u.id)
 end
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

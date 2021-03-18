@@ -30,7 +30,7 @@ gem 'devise'
 
 #kaminari
 gem 'kaminari'
-
+gem 'activeadmin'
 gem 'will_paginate', '~> 3.0'
 
 # Reduces boot times through caching; required in config/boot.rb

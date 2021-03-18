@@ -11,6 +11,9 @@
     </div>
   <% end %>
 
+<br>
+ <section class="section">
+ <div class="container">
   <div class="field">
     <%= form.label :content %>
     <%= form.text_area :content %>
@@ -21,7 +24,7 @@
     <%= form.text_field :profile_photo %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
   </div>
+  </section>
 <% end %>
+<%= link_to 'Create new Tweet', root_path, class:"btn btn-success mb-5" %>

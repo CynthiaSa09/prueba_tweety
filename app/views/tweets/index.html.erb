@@ -1,35 +1,66 @@
 <div class="container text-center">
+<%= render 'form', tweet: @tweet %>
+
       <h1>Tweets</h1>
         <% if current_user %>
         <h2 class= "text-primary text-center">
-        <%= flash[:alert] = "Bienvenido" %></h2>
-      <%= link_to 'Create new Tweet', new_tweet_path, class:"btn btn-success mb-5" %>
+        <%= flash[:alert] = "Bienvenido" %></h2> 
     <% end %>
-</div>
 
-        
+    <form class="form-inline-center">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search"
+      aria-label="Search" name="content">
+      <button class="btn btn-outline-success my-2 my-sm-3"
+      type="submit">Search</button>
+  </form>      
+
 <div class="container">
-    <div class="row">
-      <% @tweets.each do |tweet| %>
+  <div class="row">
+    <% @tweets.each do |tweet| %>
       <div class="col-sm-6 col-md-4">
-      <div class="thumbnail">
-       <td><%= image_tag (tweet.user.profile_photo), width: 100 if tweet.user.profile_photo != nil %></td>
-       <td><%= tweet.content %></td>
-       <small><%= time_ago_in_words(tweet.created_at) %> ago</small>
-            <p><%= link_to 'Show', tweet, class: "  btn btn-danger" %>
-              <% if current_user&.id == tweet.user_id %>
-                <%= link_to 'Edit', edit_tweet_path(tweet), class: "btn btn-danger" %>
-                <%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></p>
-              <% end %>
-            <br>
-            <td><%= link_to 'Like', tweet_like_path(tweet), class: "btn btn-danger mb-3", method: :post %> <%= tweet.likes.count %></td>
-            <br>
-            <td><%= link_to 'Retweet', create_rt_tweet_path(tweet), class: "btn btn-danger mb-3", method: :post%> <%= tweet.retweets.count %></td>
-       </div>
-     </div>
-    <% end %>
-  </div> 
-</div>
+        <div class="thumbnail">
+          <%= image_tag (tweet.user.profile_photo), width: 100 if tweet.user.profile_photo != nil %>
+          <%= tweet.content %>
+          <small><%= time_ago_in_words(tweet.created_at) %> ago</small>
+      </div>
 
+
+          <% if user_signed_in? %>
+            <nav class="level">
+              <div class="level-left is-mobile">
+                <% pre_like = tweet.likes.find { |like| like.user_id == current_user.id} %>
+
+                <% if pre_like %>
+                  <%= link_to tweet_like_path(tweet), method: :post, class: "level-item" do %>
+                    <span class="icon"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> </span>
+                    <%= tweet.likes.count %> <%= (tweet.likes.count) == 1 ? '' : ''%>
+                  <% end %>
+                  <% else %>
+                  
+                  <%= link_to tweet_like_path(tweet), method: :post, class: "level-item" do %>
+                    <span class="icon"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> </span>
+                    <%= tweet.likes.count %> <%= (tweet.likes.count) == 1 ? '' : ''%>
+                  <% end %>
+                <% end %>
+
+                <%= link_to create_rt_tweet_path(tweet.id), method: :post, class: "level-item" do %>
+                  <span class="icon"><i class="fa fa-retweet" aria-hidden="true"></i> </span>
+                  <%= tweet.retweets.count %> <%= (tweet.retweets.count) == 1 ? '' : ''%>
+                <% end %>
+
+                <%= link_to edit_tweet_path(tweet), class: "level-item" do %>
+                  <span class="icon"><i class="fa fa-pencil" aria-hidden="true"></i> </span>
+                <% end %>
+
+                <%= link_to tweet, method: :delete, data: {confirm: "Estas seguro de eliminar el tweet"} do %>
+                  <span class="icon"><i class="fa fa-trash-o" aria-hidden="true"></i> </span>
+                <% end %>
+              </div> 
+            </nav>
+          <% end %>
+        </div>
+    <% end %>
+  </div>
+</div> 
 
 <%= will_paginate @paginated_tweets, previous_label: '', next_label: 'Mostrar más Tweets' %>

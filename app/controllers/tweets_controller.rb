@@ -4,14 +4,9 @@ class TweetsController < ApplicationController
   
   # GET /tweets or /tweets.json
   def index
-    
-    if params[:content].present?
-      @tweets = Tweet.where('content = ?', params[:content])
-    else
-      @tweets = Tweet.all
-    end
-   
-    @paginated_tweets = Tweet.page(params[:page]).paginate(page: params[:page], per_page: 50)
+    _tweets = params[:content] ? Tweet.where("content like ?", "%#{ params[:content] }%") : Tweet.order(created_at: :desc)
+    @tweets = _tweets.paginate(page: params[:page], per_page: 50)
+    @tweet = Tweet.new
   end
   
   def like
@@ -60,10 +55,13 @@ class TweetsController < ApplicationController
     
     respond_to do |format|
       if @tweet.save
-        format.html { redirect_to @tweet, notice: "Tweet was successfully created." }
+        format.html { redirect_to root_path, notice: "Tweet was successfully created." }
         format.json { render :show, status: :created, location: @tweet }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        @tweet.erros.each do |error|
+          puts error.full_message
+        end
+        format.html { render root_path, status: :unprocessable_entity }
         format.json { render json: @tweet.errors, status: :unprocessable_entity }
       end
     end
