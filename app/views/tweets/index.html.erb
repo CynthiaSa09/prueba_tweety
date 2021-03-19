@@ -10,18 +10,20 @@
     <form class="form-inline-center">
       <input class="form-control mr-sm-2" type="search" placeholder="Search"
       aria-label="Search" name="content">
-      <button class="btn btn-outline-success my-2 my-sm-3"
+      <button class="btn btn-outline-success my-2 my-ms-5"
       type="submit">Search</button>
   </form>      
 
-<div class="container">
+
   <div class="row">
     <% @tweets.each do |tweet| %>
-      <div class="col-sm-6 col-md-4">
+      <div class="col-md-10 container">
         <div class="thumbnail">
           <%= image_tag (tweet.user.profile_photo), width: 100 if tweet.user.profile_photo != nil %>
+          <div class="container mx-auto">
           <%= tweet.content %>
-          <small><%= time_ago_in_words(tweet.created_at) %> ago</small>
+          </div>
+          <small><%=link_to  time_ago_in_words(tweet.created_at), tweet %> ago</small>
       </div>
 
 
@@ -61,6 +63,6 @@
         </div>
     <% end %>
   </div>
-</div> 
+ 
 
 <%#= will_paginate @paginated_tweets, previous_label: '', next_label: 'Mostrar más Tweets' %>
