@@ -4,9 +4,13 @@ class TweetsController < ApplicationController
   
   # GET /tweets or /tweets.json
   def index
-    _tweets = params[:content] ? Tweet.where("content like ?", "%#{ params[:content] }%") : Tweet.order(created_at: :desc)
-    #@tweets = _tweets.paginate(page: params[:page], per_page: 50)
-    @tweets = _tweets.page(params[:page]).per(50)
+    if params[:content].present?
+      @tweets = Tweet.where("content ilike ?", "%#{ params[:content] }%").page(params[:page]).per(50)
+    else 
+     friends_ids = current_user.friends.pluck(:friend_id)
+      @tweets = Tweet.for_me(friends_ids).order(created_at: :desc).page(params[:page]).per(50)
+    end
+  
     
     @tweet = Tweet.new
   end
@@ -107,6 +111,7 @@ class TweetsController < ApplicationController
       Like.where(user: current_user.id, tweet:params[:tweet_id]).exists?
     end
     # Use callbacks to share common setup or constraints between actions.
+    
     def set_tweet
       @tweet = Tweet.find(params[:id])
     end

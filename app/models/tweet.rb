@@ -4,7 +4,9 @@ class Tweet < ApplicationRecord
   
   has_many :retweets, class_name: "Tweet", foreign_key: "retweet_id"
   belongs_to :retweet, class_name: "Tweet", optional:true
-  has_and_belongs_to_many :tags
+  
+
+  scope :for_me, ->(friends_ids) { where(user_id: friends_ids) }
 
   validates :content, presence: true
   
@@ -30,18 +32,8 @@ class Tweet < ApplicationRecord
     else 
       hashtag
     end
+  end 
+    new_content.join(' ').html_safe
   end
-  new_content.join(' ').html_safe
-end
-
-
-  
-  
-  
-  
-  
-  
-  
+end 
     
-    
-end
