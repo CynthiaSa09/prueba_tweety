@@ -4,6 +4,7 @@ class Tweet < ApplicationRecord
   
   has_many :retweets, class_name: "Tweet", foreign_key: "retweet_id"
   belongs_to :retweet, class_name: "Tweet", optional:true
+  has_and_belongs_to_many :tags
 
   validates :content, presence: true
   
@@ -20,6 +21,27 @@ class Tweet < ApplicationRecord
   def original_tweet
     Tweet.find(self.origin_tweet)
   end
+  
+  def create_hashtag
+    hashtags = self.content.split(' ')
+    new_content = hashtags.map do |hashtag|
+    if hashtag.include?('#')
+    "<a href='http://localhost:3000/?content=#{hashtag}'>#{hashtag}</a>"
+    else 
+      hashtag
+    end
+  end
+  new_content.join(' ').html_safe
+end
+
 
   
+  
+  
+  
+  
+  
+  
+    
+    
 end

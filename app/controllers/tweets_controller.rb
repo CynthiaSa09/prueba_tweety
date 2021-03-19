@@ -29,6 +29,12 @@ class TweetsController < ApplicationController
   def show
     @users = User.all
   end
+
+  def hashtags
+    tag = Tag.find_by(name: params[:name])
+    @tweets = tag.tweets
+  end
+
   
   # GET /tweets/new
   def new

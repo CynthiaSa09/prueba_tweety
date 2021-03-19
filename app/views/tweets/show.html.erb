@@ -2,9 +2,9 @@
 
 <p>
   <strong>Content:</strong>
-  <%= @tweet.content %>
+  <%= @tweet.create_hashtag %>
 </p>
-
+ 
 
 <% @users.each do |u| %>
   <% if @tweet.likes.find { |like| like.user_id == u.id} %>
@@ -23,7 +23,7 @@
 </p>
 
 <p>
-  <strong>Retweet:</strong>
+  <strong>tweet:</strong>
   <%= @tweet.retweet_id %>
 </p>
 

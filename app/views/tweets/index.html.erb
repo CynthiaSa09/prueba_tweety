@@ -21,7 +21,7 @@
         <div class="thumbnail">
           <%= image_tag (tweet.user.profile_photo), width: 100 if tweet.user.profile_photo != nil %>
           <div class="container mx-auto">
-          <%= tweet.content %>
+          <%= tweet.create_hashtag %>
           </div>
           <small><%=link_to  time_ago_in_words(tweet.created_at), tweet %> ago</small>
       </div>
