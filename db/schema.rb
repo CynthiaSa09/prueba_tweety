@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_18_210918) do
+ActiveRecord::Schema.define(version: 2021_03_19_144852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,12 @@ ActiveRecord::Schema.define(version: 2021_03_18_210918) do
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "tweets", force: :cascade do |t|
     t.text "content", null: false
     t.string "image"
@@ -68,6 +74,15 @@ ActiveRecord::Schema.define(version: 2021_03_18_210918) do
     t.bigint "retweet_id"
     t.index ["retweet_id"], name: "index_tweets_on_retweet_id"
     t.index ["user_id"], name: "index_tweets_on_user_id"
+  end
+
+  create_table "tweets_tags", id: false, force: :cascade do |t|
+    t.bigint "tweet_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tag_id"], name: "index_tweets_tags_on_tag_id"
+    t.index ["tweet_id"], name: "index_tweets_tags_on_tweet_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -89,4 +104,6 @@ ActiveRecord::Schema.define(version: 2021_03_18_210918) do
   add_foreign_key "likes", "users"
   add_foreign_key "tweets", "tweets", column: "retweet_id"
   add_foreign_key "tweets", "users"
+  add_foreign_key "tweets_tags", "tags"
+  add_foreign_key "tweets_tags", "tweets"
 end

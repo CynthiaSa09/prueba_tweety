@@ -22,6 +22,11 @@
   <%= @tweet.retweets.count %>
 </p>
 
+<p>
+  <strong>Retweet:</strong>
+  <%= @tweet.retweet_id %>
+</p>
+
 
 <%= link_to 'Edit', edit_tweet_path(@tweet) %> |
 <%= link_to 'Back', tweets_path %>
